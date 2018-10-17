@@ -1,0 +1,19 @@
+body{
+    background: whitesmoke;
+}
+
+.LOGO{
+    width: 35px;
+}
+
+.USERNAME{
+    color: ivory;
+}
+
+.MAIN{
+    background: snow;
+    width: 730px;
+    margin: auto;
+    overflow: hidden;
+    padding: 10px;
+}

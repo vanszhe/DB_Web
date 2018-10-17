@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block titlename %}
+    论坛主页
+{% endblock %}
+
+{% block header %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/total.css') }}">
+{% endblock %}
+
+{% block totalstate %}
+    active
+{% endblock %}a
+
+{% block homebody %}
+    <br>
+    <p class="total-subtitle">俱怀逸兴壮思飞，欲上青天揽明月。</p>
+    <br>
+{% endblock %}
+
+{% block mainbody %}
+    <ul class="posts-list-group">
+        {% for each in posts %}
+            <li class="post-item">
+                <div class="avatar-group">
+                    <img src="{{ url_for('static', filename='images/logo-0.png') }}" alt="" class="avatar">
+                </div>
+                <div class="post-group">
+                    <a href="{{ url_for('detail', post_id=each.id) }}" class="post-title">{{ each.title }}</a>
+                    <p class="post-content">{{ each.content }}</p>
+                    <div class="post-info">
+                        <a class="post-author" href="{{ url_for('userinfo', user_id=each.author.id) }}">{{ each.author.name }}</a>
+                        <span class="post-date">{{ each.post_day }}</span>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

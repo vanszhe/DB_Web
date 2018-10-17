@@ -1,0 +1,33 @@
+{% extends 'postmag.html' %}
+
+{% block reviewp %}
+    active
+{% endblock %}
+
+{% block mainbody %}
+    <ul class="reviews-list-group">
+        {% for each in reviews %}
+            {% if user.id==1 or each.board.admin_id==user.id %}
+                <li class="review-item">
+                <div class="avatar-group">
+                    <img src="{{ url_for('static', filename='images/logo-0.png') }}" alt="" class="review-avatar">
+                </div>
+                <div class="post-group">
+                    <a href="{{ url_for('detail', post_id=each.id) }}" class="review-title">{{ each.title }}</a>
+                    <p class="review-content">{{ each.content }}</p>
+                    <div class="review-op">
+                        <a class="post-author" href="{{ url_for('userinfo', user_id=each.author.id) }}">{{ each.author.name }}</a>
+                        &emsp;
+                        <span class="post-date">{{ each.post_day }}</span>
+                        &emsp;
+                        <a href="{{ url_for('normalpost', post_id=each.id) }}" class="admin-fire">通过</a>
+                        &emsp;
+                        <a href="{{ url_for('blockedpost', post_id=each.id) }}" class="admin-fire">屏蔽</a>
+                        &emsp;
+                    </div>
+                </div>
+            </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}

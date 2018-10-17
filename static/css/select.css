@@ -1,0 +1,88 @@
+.choice{
+    margin: auto;
+}
+
+.add-box{
+    width: 600px;
+    margin: auto;
+}
+
+ul{
+    list-style: none;
+    padding: 0px;
+}
+
+.admin-item{
+    border-bottom: 1px solid #eee;
+    overflow: hidden;
+    padding: 13px 0;
+}
+
+.avatar-group{
+    width: 38px;
+    height: 100%;
+    float: left;
+}
+
+.avatar-group .admin-avatar{
+    width: 38px;
+    height: 38px;
+}
+
+.admin-group{
+    float: left;
+    width: 660px;
+    margin-left: 10px;
+}
+
+.admin-name a{
+    color: darkcyan;
+    font-weight: 800;
+}
+
+.admin-op{
+    text-align: right;
+}
+
+.admin-op .admin-det{
+    margin-right: 20px;
+}
+
+ul{
+    list-style: none;
+    padding: 0px;
+}
+
+.post-item{
+    border-bottom: 1px solid #eee;
+    overflow: hidden;
+    padding: 13px 0;
+}
+
+.total-subtitle{
+    text-align: center;
+}
+
+.avatar-group .avatar{
+    width: 38px;
+    height: 38px;
+}
+
+.post-group{
+    float: left;
+    width: 660px;
+    margin-left: 10px;
+}
+
+.post-title a{
+    color: darkcyan;
+    font-weight: 800;
+}
+
+.post-info{
+    text-align: right;
+}
+
+.post-info .post-author{
+    margin-right: 20px;
+}

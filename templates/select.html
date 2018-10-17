@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block titlename %}
+    搜索
+{% endblock %}
+
+{% block header %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/select.css') }}">
+{% endblock %}
+
+{% block totalstate %}
+    active
+{% endblock %}
+
+{% block homebody %}
+    <br>
+    <p class="total-subtitle">俱怀逸兴壮思飞，欲上青天揽明月。</p>
+    <br>
+{% endblock %}
+
+{% block mainbody %}
+    <div>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">相关帖子</a></li>
+            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">相关用户</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="home">
+                <br>
+                <ul class="posts-list-group">
+                    {% if posts %}
+                        {% for each in posts %}
+                            <li class="post-item">
+                                <div class="avatar-group">
+                                    <img src="{{ url_for('static', filename='images/logo-0.png') }}" alt="" class="avatar">
+                                </div>
+                                <div class="post-group">
+                                    <a href="{{ url_for('detail', post_id=each.id) }}" class="post-title">{{ each.title }}</a>
+                                    <p class="post-content">{{ each.content }}</p>
+                                    <div class="post-info">
+                                        <a class="post-author" href="{{ url_for('userinfo', user_id=each.author.id) }}">{{ each.author.name }}</a>
+                                        <span class="post-date">{{ each.post_day }}</span>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <div class="alert alert-info" role="alert">未找到相关内容</div>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="profile">
+                <br>
+                <ul class="admins-list-group">
+                    {% if users %}
+                        {% for each in users %}
+                            <li class="admin-item">
+                                <div class="avatar-group">
+                                    <img src="{{ url_for('static', filename='images/logo-0.png') }}" alt="" class="admin-avatar">
+                                </div>
+                                <div class="admin-group">
+                                    <a href="{{ url_for('userinfo', user_id=each.id) }}" class="admin-name">{{ each.name }}</a>
+                                    <p class="admin-level">
+                                        Lv.{{ each.level }}
+                                        &emsp;&emsp;
+                                        {% if each.recognition %}
+                                            【官方认证：{{ each.recognition }}】
+                                        {% endif %}
+                                    </p>
+                                    <div class="admin-op">
+                                        <a href="#" class="admin-det">详细信息</a>
+                                        &emsp;&emsp;
+                                        &emsp;&emsp;
+                                        &emsp;&emsp;
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <div class="alert alert-info" role="alert">未找到相关内容</div>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

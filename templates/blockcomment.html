@@ -1,0 +1,31 @@
+{% extends 'postmag.html' %}
+
+{% block blackc %}
+    active
+{% endblock %}
+
+{% block mainbody %}
+    <ul class="reviews-list-group">
+        {% for each in blackcs %}
+            <li class="review-item">
+                <div class="avatar-group">
+                    <img src="{{ url_for('static', filename='images/logo-0.png') }}" alt="" class="review-avatar">
+                </div>
+                <div class="post-group">
+                    来自：<a href="{{ url_for('detail', post_id=each.article.id) }}" class="review-title">{{ each.article.title }}</a>&emsp;{{ each.floor }}楼
+                    <p class="review-content">{{ each.content }}</p>
+                    <div class="review-op">
+                        {% if user and each.article.board.admin_id==user.id or user and user.id==1 %}
+                            <a href="{{ url_for('normalcomt', com_id=each.id) }}" class="admin-fire">恢复</a>
+                        {% endif %}
+                        &emsp;
+                        <a class="post-author" href="{{ url_for('userinfo', user_id=each.author.id) }}">{{ each.author.name }}</a>
+                        &emsp;
+                        <span class="post-date">{{ each.com_time }}</span>
+                        &emsp;
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

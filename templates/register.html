@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block titlename %}
+    注册
+{% endblock %}
+
+{% block header %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+{% endblock %}
+
+{% block registerstate %}
+    active
+{% endblock %}
+
+{% block homebody %}
+    <br>
+    <p class="register-subtitle">君不见，黄河之水天上来，奔流到海不复回</p>
+    <br>
+{% endblock %}
+
+{% block mainbody %}
+    <h2 class="register-title">注册</h2>
+    <br>
+    <form action="" method="POST">
+        <div class="form-box">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputEmail3" placeholder="用户名", name="username">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="inputPassword3" placeholder="密码", name="password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword4" class="col-sm-2 control-label">确认密码</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="inputPassword4" placeholder="确认密码", name="password_">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default">注册</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

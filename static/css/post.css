@@ -1,0 +1,22 @@
+.form-box{
+    width: 650px;
+    margin: auto;
+}
+
+.post-title{
+    text-align: center;
+}
+
+.post-subtitle{
+    text-align: center;
+}
+
+.dropup{
+    margin-left: 126px;
+    height: 40px;
+    margin-bottom: 3px;
+}
+
+.btn btn-default dropdown-toggle{
+    height: 34px;
+}

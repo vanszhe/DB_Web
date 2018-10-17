@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block titlename %}
+    管理员
+{% endblock %}
+
+{% block header %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/postmag.css') }}">
+{% endblock %}
+
+{% block settingstate %}
+    active
+{% endblock %}
+
+{% block homebody %}
+    <div class="choice">
+        <ul class="nav nav-pills">
+            <li role="presentation" class="{% block blackp %} {% endblock %}"><a href="{{ url_for('blackpost') }}">帖子黑名单</a></li>
+            <li role="presentation" class="{% block blackc %} {% endblock %}"><a href="{{ url_for('blackcomment') }}">评论黑名单</a></li>
+            {% if user.managed %}
+                <li role="presentation" class="{% block reviewp %} {% endblock %}"><a href="{{ url_for('reviewing') }}">待审核帖子</a></li>
+                <!--<li role="presentation" class=""><a href="{{ url_for('reportpage') }}">举报处理</a></li>-->
+                <li role="presentation" class="{% block report %} {% endblock %}"><a href="#">举报处理</a></li>
+            {% endif %}
+            {% if user.id==1 %}
+                <li role="presentation" class="{% block binfo %} {% endblock %}"><a href="{{ url_for('boardmag') }}">版块信息</a></li>
+            {% endif %}
+        </ul>
+        {% block add %}
+
+        {% endblock %}
+    </div>
+{% endblock %}

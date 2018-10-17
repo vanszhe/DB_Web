@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block titlename %}
+    管理员
+{% endblock %}
+
+{% block header %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block settingstate %}
+    active
+{% endblock %}
+
+{% block homebody %}
+    <div>
+        <div class="choice">
+            <ul class="nav nav-pills">
+                <li role="presentation" class="{% block blacku %} {% endblock %}"><a href="{{ url_for('black') }}">黑名单用户</a></li>
+                {% if user.id == 1 %}
+                    <li role="presentation" class="{% block adminu %} {% endblock %}"><a href="{{ url_for('admin') }}">管理员用户</a></li>
+                    <li role="presentation" class="{% block headu %} {% endblock %}"><a href="{{ url_for('head') }}">版主用户</a></li>
+                {% endif %}
+                {% if user.id == 1 %}
+                    <li role="presentation" class="{% block topupu %} {% endblock %}"><a href="#">用户充值管理</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        {% block add %}
+
+        {% endblock %}
+    </div>
+{% endblock %}

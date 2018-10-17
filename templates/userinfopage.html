@@ -1,0 +1,243 @@
+{% extends 'base.html' %}
+
+{% block titlename %}
+    个人信息
+{% endblock %}
+
+{% block header %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/userinfopage.css') }}">
+{% endblock %}
+
+{% block settingstate %}
+    active
+{% endblock %}
+
+{% block homebody %}
+    <div class="page-header">
+        <h1 class="title-words">{{ the_user.name }} &emsp;<small>  个人信息</small></h1>
+    </div>
+{% endblock %}
+
+{% block mainbody %}
+    <div class="user-pic-box">
+        <div class="row">
+            <div class="col-xs-6 col-md-3">
+                <a href="#" class="thumbnail">
+                    <img src="{{ url_for('static', filename='images/logo-0.png') }}" alt="" class="usr-picture">
+                </a>
+            </div>
+            <p class="usr-name"><li>用户名：{{ the_user.name }}</li></p>
+            <p class="usr-name"><li>性别：
+                                    {% if the_user.gender == 'M' %}
+                                        男
+                                    {% elif the_user.gender == 'F' %}
+                                        女
+                                    {% else %}
+                                        保密
+                                    {% endif %}
+                                </li></p>
+            <p class="usr-name"><li>生日：
+                                    {% if the_user.birthday %}
+                                        {{ the_user.birthday }}
+                                    {% else %}
+                                        未设置
+                                    {% endif %}
+                                </li></p>
+            <p class="usr-name"><li>认证信息：
+                                    {% if the_user.recognition %}
+                                        {{ the_user.recognition }}
+                                    {% else %}
+                                        无
+                                    {% endif %}
+                                </li></p>
+            <p class="usr-name">{% if the_user.is_admin == 'Y' %}
+                                    <li>管理员</li>
+                                {% else %}
+                                    <br>
+                                {% endif %}
+                                </p>
+            {% if the_user.level>=0 %}
+                <p class="usr-name"><li>等级：Lv.{{ the_user.level }}&emsp;
+                                        {% if user and user.is_admin=='Y' and the_user.is_admin=='N' or user and user.id==1 and the_user.id!=1 %}
+                                            <a href="{{ url_for('ban', user_id=the_user.id) }}">封号</a>
+                                        {% endif %}
+                                    </li></p>
+                {% if the_user.level>0 %}
+                    <div class="exp-level-box">
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{ the_user.exp*10/(the_user.level) }}%;">
+                                <p style="text-align: center">{{ the_user.exp }}/{{ the_user.level*10 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="exp-level-box">
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                                <p style="text-align: center">99999/99999</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% else %}
+                <p>&emsp;【已封号】</p>
+            {% endif %}
+            {% if user %}
+                {% if the_user.id == user.id or user.id == 1 %}
+                    <p class="usr-name"><li>余额：{{ the_user.balance }}</li></p>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+    <div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">发帖记录</a></li>
+            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">评论记录</a></li>
+            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">收藏夹</a></li>
+            {% if user %}
+                {% if the_user.id == user.id %}
+                    <li role="presentation"><a href="#setting" aria-controls="setting" role="tab" data-toggle="tab">设置</a></li>
+                {% endif %}
+            {% endif %}
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="home">
+                <br>
+                {% if the_user.articles %}
+                    {% for each in the_user.articles %}
+                        {% if each.status!='reviewing' and each.status!='blocked' %}
+                            <div class="list-group">
+                                <a href="{{ url_for('detail', post_id=each.id) }}" class="list-group-item ">
+                                    <h4 class="list-group-item-heading">{{ each.title }}</h4>
+                                    <p class="list-group-item-text">{{ each.content }}</p>
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="profile">
+                <br>
+                {% if the_user.comments %}
+                    {% for each in the_user.comments %}
+                        {% if each.status!='blocked' %}
+                            <div class="list-group">
+                                <a href="{{ url_for('detail', post_id=each.post_id) }}" class="list-group-item ">
+                                    <h5 class="list-group-item-heading">来自：{{ each.article.title }}</h5>
+                                    <p class="list-group-item-text-comment">{{ each.content }}</p>
+                                    <p class="list-group-item-text-comment">
+                                        {{ each.com_time }}
+                                        &emsp;
+                                        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                                        赞({{ each.like_num }})
+                                    </p>
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="messages">
+                <br>
+                {% if the_user.favorite_posts %}
+                    {% for each in the_user.favorite_posts %}
+                        {% if each.article.status!='reviewing' and each.article.status!='blocked' %}
+                            <div class="list-group">
+                                <a href="{{ url_for('detail', post_id=each.post_id) }}" class="list-group-item ">
+                                    <h4 class="list-group-item-heading">{{ each.article.title }}</h4>
+                                    <p class="list-group-item-text">{{ each.article.content }}</p>
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="setting">
+                <hr>
+                &emsp;
+                &emsp;
+                <a href="{{ url_for('alterpasswdpage') }}">修改密码</a>
+                <hr>
+                <div>
+
+                  <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#birthday" aria-controls="birthday" role="tab" data-toggle="tab">修改生日</a></li>
+                        <li role="presentation"><a href="#gender" aria-controls="gender" role="tab" data-toggle="tab">修改性别</a></li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="birthday">
+                            <br>
+                            <form action="{{ url_for('alterdob') }}">
+                                <ul class="list-group">
+                                <li class="list-group-item">
+                                    <div>
+                                        <span>年</span>
+                                        <select name="year" id="y">
+                                            <option value="None">选择</option>
+                                            {% for foo in yearlist %}
+                                                <option value="{{ foo + now.year }}">{{ foo + now.year }}年</option>
+                                            {% endfor %}
+
+                                        </select>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div>
+                                        <span>月</span>
+                                        <select name="month" id="m">
+                                            <option value="None">选择</option>
+                                            {% for foo in monthlist %}
+                                                <option value="{{ foo }}">{{ foo }}月</option>
+                                            {% endfor %}
+
+                                        </select>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div>
+                                        <span>日</span>
+                                        <select name="day" id="d">
+                                            <option value="None">选择</option>
+                                            {% for foo in daylist %}
+                                                <option value="{{ foo }}">{{ foo }}日</option>
+                                            {% endfor %}
+
+                                        </select>
+                                    </div>
+                                </li>
+                            </ul>
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-default">确认修改</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" id="gender">
+                            <br>
+                            <div class="dropup">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    修改为
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <li {% if the_user.gender=='M' %}class="disabled"{% endif %}><a href="{{ url_for('altergender', newgender='M') }}">男</a></li>
+                                    <li {% if the_user.gender=='F' %}class="disabled"{% endif %}><a href="{{ url_for('altergender', newgender='F') }}">女</a></li>
+                                    <li {% if the_user.gender=='N' %}class="disabled"{% endif %}><a href="{{ url_for('altergender', newgender='N') }}">保密</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

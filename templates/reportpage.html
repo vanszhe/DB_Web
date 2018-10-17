@@ -1,0 +1,88 @@
+{% extends 'postmag.html' %}
+
+{% block report %}
+    active
+{% endblock %}
+
+{% block mainbody %}
+    <div>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#posts" aria-controls="posts" role="tab" data-toggle="tab">被举报帖子</a></li>
+            <li role="presentation"><a href="#comts" aria-controls="comts" role="tab" data-toggle="tab">被举报评论</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="posts">
+                <br>
+                <ul class="reviews-list-group">
+                    {% for each in p %}
+                        <li class="review-item">
+                            <div class="avatar-group">
+                                <img src="{{ url_for('static', filename='images/logo-0.png') }}" alt="" class="review-avatar">
+                            </div>
+                            <div class="post-group">
+                                <a href="{{ url_for('detail', post_id=each.article.id) }}" class="review-title">{{ each.article.title }}</a>
+                                <p class="review-content">{{ each.article.content }}</p>
+                                <div class="review-op">
+                                    {% if user %}
+                                        <a href="#">忽略</a>
+                                        &emsp;
+                                        <a href="#">删帖</a>
+                                        &emsp;
+                                        {% if user.id==1 %}
+                                            <a href="#">删帖并封号</a>
+                                            &emsp;
+                                        {% endif %}
+                                    {% endif %}
+                                    &emsp;
+                                    <a class="post-author" href="{{ url_for('userinfo', user_id=each.article.author.id) }}">{{ each.article.author.name }}</a>
+                                    &emsp;
+                                    <span class="post-date">{{ each.article.post_day }}</span>
+                                    &emsp;
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="comts">
+                <br>
+                <ul class="reviews-list-group">
+                    {% for each in c %}
+                        <li class="review-item">
+                            <div class="avatar-group">
+                                <img src="{{ url_for('static', filename='images/logo-0.png') }}" alt="" class="review-avatar">
+                            </div>
+                            <div class="post-group">
+                                来自：<a href="{{ url_for('detail', post_id=each.article.id) }}" class="review-title">{{ each.comment.article.title }}</a>&emsp;{{ each.comment.floor }}楼
+                                <p class="review-content">{{ each.comment.content }}</p>
+                                <div class="review-op">
+                                    {% if user %}
+                                        <a href="#">忽略</a>
+                                        &emsp;
+                                        <a href="#">删评论</a>
+                                        &emsp;
+                                        {% if user.id==1 %}
+                                            <a href="#">删评论并封号</a>
+                                            &emsp;
+                                        {% endif %}
+                                    {% endif %}
+                                    &emsp;
+                                    <a class="post-author" href="{{ url_for('userinfo', user_id=each.comment.author.id) }}">{{ each.comment.author.name }}</a>
+                                    &emsp;
+                                    <span class="post-date">{{ each.comment.com_time }}</span>
+                                    &emsp;
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        </div>
+{% endblock %}

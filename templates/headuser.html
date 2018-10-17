@@ -1,0 +1,37 @@
+{% extends 'usermag.html' %}
+
+{% block headu %}
+    active
+{% endblock %}
+
+{% block mainbody %}
+    <ul class="admins-list-group">
+        {% for each in heads %}
+            <li class="admin-item">
+                <div class="avatar-group">
+                    <img src="{{ url_for('static', filename='images/logo-0.png') }}" alt="" class="admin-avatar">
+                </div>
+                <div class="admin-group">
+                    <a href="{{ url_for('userinfo', user_id=each.admin.id) }}" class="admin-name">{{ each.admin.name }}</a>
+                    &emsp;&emsp;
+                    <a href="{{ url_for('sortpost', board_id=each.id) }}" class="admin-name">【{{ each.name }}版主】</a>
+                    <p class="admin-level">
+                        Lv.{{ each.admin.level }}
+                        &emsp;&emsp;
+                        {% if each.admin.recognition %}
+                            【官方认证：{{ each.admin.recognition }}】
+                        {% endif %}
+                    </p>
+                    <div class="admin-op">
+                        <a href="{{ url_for('userinfo', user_id=each.id) }}" class="admin-det">详细信息</a>
+                        &emsp;&emsp;
+                        <a href="{{ url_for('dismiss', admin_id=each.admin.id) }}" class="admin-fire">罢免</a>
+                        &emsp;&emsp;
+                        <a href="{{ url_for('ban', user_id=each.admin.id) }}" class="admin-ban">封号</a>
+                        &emsp;&emsp;
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
